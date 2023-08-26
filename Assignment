@@ -1,0 +1,51 @@
+abstract class Account{
+  int accountNumber;
+  double balance;
+
+  Account(this.accountNumber,this.balance);
+  deposit(double amount){
+    balance = balance + amount;
+    return balance;
+  }
+  withdraw(double amount);
+      //balance = balance - amount;
+      //return balance;
+}
+class SavingsAccount extends Account{
+  double interestRate;
+  SavingsAccount (super.accountNumber,super.balance,this.interestRate);
+  @override
+  withdraw (double amount){
+    balance = (balance - amount) * (1 + interestRate);
+    return balance;
+  }
+
+}
+class CurrentAccount extends Account{
+  double overdraftLimit;
+
+  CurrentAccount(super.accountNumber,super.balance,this.overdraftLimit);
+  @override
+  withdraw(double amount) {
+    if(amount <= overdraftLimit){
+      balance = balance - amount;
+      return balance;
+    }else{
+     return 'Insufficiant Balance';
+    }
+
+  }
+
+}
+
+void main() {
+  SavingsAccount customer1 = SavingsAccount(17151087, 15000.0, 12.1);
+  print("Customer Account No : ${customer1.accountNumber}");
+  print("Balance after deposit: ${customer1.deposit(600.0)}");
+  print("Balance after withdraw: ${customer1.withdraw(300.0)}");
+
+  CurrentAccount customer2 = CurrentAccount(17151089, 150000.0, 20000.0);
+  print("\nCustomer Account No : ${customer2.accountNumber}");
+  print("Balance after deposit: ${customer2.deposit(500.0)}");
+  print("Balance after withdraw: ${customer2.withdraw(30000.0)}");
+}
